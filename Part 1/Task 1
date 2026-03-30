@@ -1,0 +1,66 @@
+# ============================================================
+# Part 1: Python Basics & Control Flow
+# Student Grade Tracker
+# ============================================================
+
+
+# ============================================================
+# TASK 1 — Data Parsing & Profile Cleaning
+# ============================================================
+
+# Raw student data with messy names, string roll numbers,
+# and marks stored as a single comma-separated string
+raw_students = [
+    {"name": "  ayesha SHARMA  ", "roll": "101", "marks_str": "88, 72, 95, 60, 78"},
+    {"name": "ROHIT verma",       "roll": "102", "marks_str": "55, 68, 49, 72, 61"},
+    {"name": "  Priya Nair  ",    "roll": "103", "marks_str": "91, 85, 88, 94, 79"},
+    {"name": "karan MEHTA",       "roll": "104", "marks_str": "40, 55, 38, 62, 50"},
+    {"name": " Sneha pillai ",    "roll": "105", "marks_str": "75, 80, 70, 68, 85"},
+]
+
+# store the cleaned student dicts here for later use
+cleaned_students = []
+
+# Loop through each raw student record and clean it up
+for student in raw_students:
+
+    # .strip() removes leading/trailing spaces
+    # .title() converts to Title Case (e.g., "ayesha SHARMA" -> "Ayesha Sharma")
+    clean_name = student["name"].strip().title()
+
+    # Convert roll number string to an integer
+    clean_roll = int(student["roll"])
+
+    # Split the comma-separated marks string into a list of integers
+    # .split(", ") splits on ", " giving a list of strings like ["88", "72", ...]
+    # int(m) converts each string element to an integer
+    clean_marks = [int(m) for m in student["marks_str"].split(", ")]
+
+    # Build the cleaned student dictionary
+    cleaned = {
+        "name": clean_name,
+        "roll": clean_roll,
+        "marks": clean_marks
+    }
+    cleaned_students.append(cleaned)
+
+    # Validate the name: every word should contain only alphabetic characters
+    # .split() breaks the name into words; .isalpha() checks each word
+    name_valid = all(word.isalpha() for word in clean_name.split())
+    validity_label = "✓ Valid name" if name_valid else "✗ Invalid name"
+
+    # Print the formatted profile card using f-strings
+    print("================================")
+    print(f"Student : {clean_name}  {validity_label}")
+    print(f"Roll No : {clean_roll}")
+    print(f"Marks   : {clean_marks}")
+    print("================================")
+
+# After processing all students, find the one with roll number 103
+# and print their name in ALL CAPS and lowercase
+for student in cleaned_students:
+    if student["roll"] == 103:
+        print(f"\nRoll 103 — ALL CAPS  : {student['name'].upper()}")
+        print(f"Roll 103 — lowercase : {student['name'].lower()}")
+        break
+
