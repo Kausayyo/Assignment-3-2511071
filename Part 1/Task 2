@@ -1,0 +1,88 @@
+# ============================================================
+# Part 1: Student Grade Tracker
+# ============================================================
+
+
+# ============================================================
+# Task 2 — Marks Analysis Using Loops & Conditionals (8 marks)
+# ============================================================
+
+student_name = "Ayesha Sharma"
+subjects     = ["Math", "Physics", "CS", "English", "Chemistry"]
+marks        = [88, 72, 95, 60, 78]
+
+# Grade helper function
+def get_grade(m):
+    if m >= 90:   return "A+"
+    elif m >= 80: return "A"
+    elif m >= 70: return "B"
+    elif m >= 60: return "C"
+    else:         return "F"
+
+print(f"\nMarks Report for: {student_name}")
+print("-" * 35)
+
+# For loop: print each subject, marks, and grade
+for subject, mark in zip(subjects, marks):
+    grade = get_grade(mark)
+    print(f"{subject:<12}: {mark}  [{grade}]")
+
+# Summary stats
+total   = sum(marks)
+average = round(total / len(marks), 2)
+
+# Highest and lowest using manual loop (avoids built-in max/min)
+highest_mark = marks[0]
+lowest_mark  = marks[0]
+highest_sub  = subjects[0]
+lowest_sub   = subjects[0]
+
+for i in range(1, len(marks)):
+    if marks[i] > highest_mark:
+        highest_mark = marks[i]
+        highest_sub  = subjects[i]
+    if marks[i] < lowest_mark:
+        lowest_mark = marks[i]
+        lowest_sub  = subjects[i]
+
+print("-" * 35)
+print(f"Total Marks    : {total}")
+print(f"Average Marks  : {average}")
+print(f"Highest Subject: {highest_sub} ({highest_mark})")
+print(f"Lowest Subject : {lowest_sub} ({lowest_mark})")
+
+# While loop: simulate marks-entry system
+print("\n--- Add New Subjects (type 'done' to stop) ---")
+
+new_count = 0  # tracks valid subjects added
+
+while True:
+    subject_input = input("Enter subject name (or 'done' to stop): ").strip()
+
+    if subject_input.lower() == "done":
+        break  # exit when user types done
+
+    marks_input = input(f"Enter marks for {subject_input} (0-100): ").strip()
+
+    # Validate: must be numeric
+    if not marks_input.isnumeric():
+        print("⚠️  Warning: Invalid input — marks must be a number. Skipping.")
+        continue
+
+    marks_val = int(marks_input)
+
+    # Validate: must be within 0–100
+    if marks_val < 0 or marks_val > 100:
+        print("⚠️  Warning: Marks must be between 0 and 100. Skipping.")
+        continue
+
+    # Valid — add to lists
+    subjects.append(subject_input)
+    marks.append(marks_val)
+    new_count += 1
+    print(f"✓ Added: {subject_input} — {marks_val}")
+
+updated_average = round(sum(marks) / len(marks), 2)
+print(f"\nNew subjects added : {new_count}")
+print(f"Updated Average    : {updated_average}")
+
